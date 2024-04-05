@@ -16,7 +16,12 @@ const ModalAddChildren = ({ setIsAdd, dataEdit }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v2/children`, "post", values),
+    mutationFn: (values) =>
+      queryData(
+        dataEdit ? `/v2/children/${dataEdit.children_aid}` : "/v2/children",
+        dataEdit ? "PUT" : "POST",
+        values
+      ), //kaya may ganito para sya ang bahala na mapapunta sa api ang data
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["children"] });
@@ -27,6 +32,7 @@ const ModalAddChildren = ({ setIsAdd, dataEdit }) => {
         // dispatch(setMessage(data.error));
         console.log("error");
       } else {
+        setIsAdd(false); //para kapag nag success ay mag close ang modal
         // dispatch(setIsAdd(false));
         // dispatch(setSuccess(true));
         // dispatch(setMessage(`Successfully ${itemEdit ? `updated` : `added`}.`));
@@ -36,13 +42,18 @@ const ModalAddChildren = ({ setIsAdd, dataEdit }) => {
   });
 
   const initVal = {
-    children_aid: "",
-    children_name: "",
-    children_address: "",
-    children_email: "",
+    children_aid: dataEdit ? dataEdit.children_aid : " ",
+    children_name: dataEdit ? dataEdit.children_name : " ",
+    children_address: dataEdit ? dataEdit.children_address : " ",
+    children_email: dataEdit ? dataEdit.children_email : " ",
   };
 
-  const yupSchema = Yup.object({});
+  //ginagamit para sa lalabas kapag incomplete ang data na inilagay
+  const yupSchema = Yup.object({
+    children_name: Yup.string().required("Where is the data?"),
+    children_address: Yup.string().required("Where is the data?"),
+    children_email: Yup.string().required("Where is the data?"),
+  });
 
   return (
     <ModalSideWrapper>
@@ -58,8 +69,9 @@ const ModalAddChildren = ({ setIsAdd, dataEdit }) => {
           initialValues={initVal}
           validationSchema={yupSchema}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
+            //kapag nag submit
             // mutate data
-            mutation.mutate(values);
+            mutation.mutate(values); //kukunin nito yung data
           }}
         >
           {(props) => {
