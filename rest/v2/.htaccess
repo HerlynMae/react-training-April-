@@ -1,0 +1,23 @@
+RewriteEngine On
+# use for authentication
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+Header set Access-Control-Allow-Origin *
+
+#from react ito yung bridge para sa url, para makapagbigay ng data
+#children
+RewriteRule ^children$ controllers/children/children.php [L]
+#gagana sa update
+RewriteRule ^children/([0-9]+)$ controllers/children/children.php?childrenid=$1 [L]
+#para sa active
+RewriteRule ^children/active/([0-9]+)$ controllers/children/active.php?childrenid=$1 [L]
+
+#parents
+RewriteRule ^parents$ controllers/parents/parents.php [L]
+#gagana sa update
+RewriteRule ^parents/([0-9]+)$ controllers/parents/parents.php?parentsid=$1 [L]
+#para sa active
+RewriteRule ^parents/active/([0-9]+)$ controllers/parents/active.php?parentsid=$1 [L]
