@@ -1,23 +1,25 @@
 export const kids = [
   {
     aid: 1,
-    name: "test1",
-    address: "123 street brgy sta ana",
-    email: "123.asd@gmail.com",
+    name: "test",
+    address: "1 Street Brgy. San Ignacio",
+    email: "1@gmail.com",
     isActive: 1,
   },
   {
     aid: 2,
     name: "test2",
-    address: "vfcv street brgy sta ana",
-    email: "1vfg.asd@gmail.com",
-    isActive: 0,
+    address: "12 Street Brgy. San Ignacio",
+    email: "12@gmail.com",
+    isActive: 2,
   },
   {
     aid: 3,
     name: "test3",
-    address: "1ygj3 street brgy sta ana",
-    email: "1jyj23.asd@gmail.com",
-    isActive: 2,
+    address: "123 Street Brgy. San Ignacio",
+    email: "123@gmail.com",
+    isActive: 1,
   },
 ];
+
+

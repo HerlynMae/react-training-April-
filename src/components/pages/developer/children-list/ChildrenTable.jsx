@@ -1,48 +1,75 @@
 import useQueryData from "@/components/custom-hooks/useQueryData";
+import NoData from "@/components/partials/NoData";
+import TableLoader from "@/components/partials/TableLoader";
+import ModalArchiveRestore from "@/components/partials/modal/ModalArchiveRestore";
+import ModalDelete from "@/components/partials/modal/ModalDelete";
+import { setIsAdd, setIsDelete } from "@/store/storeAction";
+import { StoreContext } from "@/store/storeContext";
 import React from "react";
-import { CiEdit } from "react-icons/ci";
-import { FaArchive } from "react-icons/fa";
+import { MdOutlineEdit } from "react-icons/md";
+import { MdOutlineArchive } from "react-icons/md";
 import { MdOutlineRestore } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-const ChildrenTable = ({ kids, setDataEdit, setIsAdd }) => {
-  // ito yung nagpapakita ng data o para lumabas ang output sa network tab
+import { MdOutlineDeleteOutline } from "react-icons/md";
+const ChildrenTable = ({ setDataEdit }) => {
+  const [id, setIsId] = React.useState("");
+  const [dataItem, setDataItem] = React.useState("");
+  const [isArchive, setIsArchive] = React.useState("");
+  const [isRestore, setIsRestore] = React.useState(false);
+  const { store, dispatch } = React.useContext(StoreContext);
   const {
     isLoading,
     isFetching,
     error,
     data: children,
   } = useQueryData(
-    `./v2/children`, // endpoint
-    "get", // method , nakaget para ma-read ang data
-    "children" // key , kapag may bagong data ay mag re refresh ang table kaya may key
+    `/v2/children`, // endpoint
+    "get", // method
+    "children" // key
   );
-
-  console.log(children);
 
   const handleEdit = (child) => {
     setDataEdit(child);
-    setIsAdd(true);
+    dispatch(setIsAdd(true));
+  };
+
+  const handleDelete = (child) => {
+    setDataItem(child.children_name);
+    setIsId(child.children_aid);
+    dispatch(setIsDelete(true));
+  };
+
+  const handleArchive = (child) => {
+    setDataItem(child.children_name);
+    setIsId(child.children_aid);
+    setIsArchive(true);
+    setIsRestore(false);
+  };
+
+  const handleRestore = (child) => {
+    setDataItem(child.children_name);
+    setIsId(child.children_aid);
+    setIsArchive(true);
+    setIsRestore(true);
   };
 
   let count = 1;
   return (
     <div>
       {isLoading ? (
-        "Loading"
+        <TableLoader />
       ) : children.data.length === 0 ? (
-        "No Data"
+        <NoData />
       ) : (
         <table>
           <thead>
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Address</th>
+              <th>Addres</th>
               <th>Email</th>
               <th>Action</th>
             </tr>
           </thead>
-
           <tbody>
             {children?.data.map((child, key) => {
               return (
@@ -61,25 +88,37 @@ const ChildrenTable = ({ kids, setDataEdit, setIsAdd }) => {
                               data-tooltip="edit"
                               onClick={() => handleEdit(child)}
                             >
-                              <CiEdit />
+                              <MdOutlineEdit />
                             </button>
                           </li>
                           <li>
-                            <button>
-                              <FaArchive />
+                            <button
+                              className="tooltip"
+                              data-tooltip="archive"
+                              onClick={() => handleArchive(child)}
+                            >
+                              <MdOutlineArchive />
                             </button>
                           </li>
                         </>
                       ) : (
                         <>
                           <li>
-                            <button>
+                            <button
+                              className="tooltip"
+                              data-tooltip="restore"
+                              onClick={() => handleRestore(child)}
+                            >
                               <MdOutlineRestore />
                             </button>
                           </li>
                           <li>
-                            <button>
-                              <MdDelete />
+                            <button
+                              className="tooltip"
+                              data-tooltip="delete"
+                              onClick={() => handleDelete(child)}
+                            >
+                              <MdOutlineDeleteOutline />
                             </button>
                           </li>
                         </>
@@ -91,6 +130,23 @@ const ChildrenTable = ({ kids, setDataEdit, setIsAdd }) => {
             })}
           </tbody>
         </table>
+      )}
+      {store.isDelete && (
+        <ModalDelete
+          setIsDelete={setIsDelete}
+          mysqlApiDelete={`/v2/children/${id}`}
+          queryKey={"children"}
+          item={dataItem}
+        />
+      )}
+      {isArchive && (
+        <ModalArchiveRestore
+          setIsArchive={setIsArchive}
+          queryKey={"children"}
+          mysqlEndpoint={`/v2/children/active/${id}`}
+          item={dataItem}
+          isRestore={isRestore}
+        />
       )}
     </div>
   );

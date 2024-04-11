@@ -16,11 +16,16 @@ if (array_key_exists("parentsid", $_GET)) {
   $parents->parents_name = checkIndex($data, "parents_name");
   $parents->parents_email = checkIndex($data, "parents_email");
   $parents->parents_address = checkIndex($data, "parents_address");
-  $parents->settings_created = date("Y-m-d H:i:s");
-  $parents->settings_datetime = date("Y-m-d H:i:s");
+  $parents->parents_created = date("Y-m-d H:i:s");
+  $parents->parents_datetime = date("Y-m-d H:i:s");
   checkId($parents->parents_aid);
+
+//checks current data to avoid same entries from being updated
+$parents_name_old=checkIndex($data, 'parents_name_old');
+compareName($parents, $parents_name_old, $parents->parents_name);
+checkId($parents->parents_aid);
+
   // update
-  //----makukuha na ng database dahil sa query
   $query = checkUpdate($parents);
   returnSuccess($parents, "parents", $query);
 }

@@ -1,5 +1,4 @@
 import { useField } from "formik";
-
 export const InputText = ({
   label = "",
   required = true,
@@ -9,7 +8,6 @@ export const InputText = ({
   ...props
 }) => {
   const [field, meta] = useField(props);
-
   return (
     <>
       <input
@@ -25,7 +23,6 @@ export const InputText = ({
         autoComplete="off"
         ref={refVal}
       />
-
       {label !== "" && (
         <label htmlFor={props.id || props.name}>
           {required && <span className="text-alert">*</span>}

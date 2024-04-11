@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryData } from "../helpers/queryData";
 
 // Queries hook
-//ginagamit para makuha ang data
-//ito ang nag pa process ng request at mag re return ng value
 const useQueryData = (
   endpoint,
   method,
@@ -22,3 +20,5 @@ const useQueryData = (
 };
 
 export default useQueryData;
+
+//userQueryData processes the request, and returns the values

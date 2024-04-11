@@ -1,9 +1,7 @@
 <?php
 
-//para sa declaration
 class Children
 {
-  //galing sa database
     public $children_aid;
     public $children_is_active;
     public $children_name;
@@ -12,14 +10,12 @@ class Children
     public $children_created;
     public $children_datetime;
 
-    //ginagamit sa 
     public $connection;
     public $lastInsertedId;
-    public $client_start;
-    public $client_total;
-    public $client_search;
+    public $children_start;
+    public $children_total;
+    public $children_search;
 
-    //para makapag join ng mga table galing sa database
     public $tblChildren;
 
     public function __construct($db)
@@ -29,9 +25,6 @@ class Children
         
     }
 
-    //para sa reading, para mabasa yung data
-    //* means all
-    //desc means nasa taas ang mga active
     public function readAll()
       {
         try {
@@ -63,14 +56,10 @@ class Children
   //     }
   //     return $query;
   // }
-
-
       public function readById()
       {
           try {
               $sql = "select * from {$this->tblChildren} ";
-              //para sa controller
-              //: para sa data, para makuha ang data
               $sql .= "where children_aid = :children_aid ";
               $query = $this->connection->prepare($sql);
               $query->execute([
@@ -108,6 +97,21 @@ class Children
         "children_datetime" => $this->children_datetime,
       ]);
       $this->lastInsertedId = $this->connection->lastInsertId();
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+  public function checkName()
+  {
+    try {
+      $sql = "select children_name from {$this->tblChildren} ";
+      $sql .= "where children_name = :children_name ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "children_name" => "{$this->children_name}",
+      ]);
     } catch (PDOException $ex) {
       $query = false;
     }

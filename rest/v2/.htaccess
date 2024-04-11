@@ -6,18 +6,35 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
 Header set Access-Control-Allow-Origin *
+ 
+# #client
+# RewriteRule ^client$ controllers/client/client.php [L]
+# RewriteRule ^client/([0-9]+)$ controllers/client/client.php?clientid=$1 [L]
+# RewriteRule ^client/active/([0-9]+)$ controllers/client/active.php?clientid=$1 [L]
+# RewriteRule ^client/page/([0-9]+)$ controllers/client/page.php?start=$1 [L]
+# RewriteRule ^client/search$ controllers/client/search.php [L]
 
-#from react ito yung bridge para sa url, para makapagbigay ng data
+# #orders
+# RewriteRule ^orders$ controllers/orders/orders.php [L]
+# RewriteRule ^orders/([0-9]+)$ controllers/orders/orders.php?orderid=$1 [L]
+# RewriteRule ^orders/active/([0-9]+)$ controllers/orders/active.php?orderid=$1 [L]
+
+# #services
+# RewriteRule ^services$ controllers/settings/services/services.php [L]
+# RewriteRule ^services/([0-9]+)$ controllers/settings/services/services.php?servicesid=$1 [L]
+# RewriteRule ^services/active/([0-9]+)$ controllers/settings/services/active.php?servicesid=$1 [L]
+
+# #orders
+# RewriteRule ^orders$ controllers/orders/orders.php [L]
+# RewriteRule ^orders/([0-9]+)$ controllers/orders/orders.php?orderid=$1 [L]
+# RewriteRule ^orders/active/([0-9]+)$ controllers/orders/orders.php?orderid=$1 [L]
+
 #children
 RewriteRule ^children$ controllers/children/children.php [L]
-#gagana sa update
 RewriteRule ^children/([0-9]+)$ controllers/children/children.php?childrenid=$1 [L]
-#para sa active
 RewriteRule ^children/active/([0-9]+)$ controllers/children/active.php?childrenid=$1 [L]
 
-#parents
+#parent
 RewriteRule ^parents$ controllers/parents/parents.php [L]
-#gagana sa update
 RewriteRule ^parents/([0-9]+)$ controllers/parents/parents.php?parentsid=$1 [L]
-#para sa active
 RewriteRule ^parents/active/([0-9]+)$ controllers/parents/active.php?parentsid=$1 [L]

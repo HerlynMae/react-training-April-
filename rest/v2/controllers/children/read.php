@@ -8,7 +8,6 @@ $children = new Children($conn);
 $error = [];
 $returnData = [];
 
-//-----------------function para makapagbasa by ID
 if (array_key_exists("childrenid", $_GET)) {
   $children->children_aid = $_GET['childrenid'];
   checkId($children->children_aid);
@@ -17,7 +16,6 @@ if (array_key_exists("childrenid", $_GET)) {
   getQueriedData($query);
 }
 
-//------------------para mabasa lahat
 if (empty($_GET)) {
   $query = checkReadAll($children);
   http_response_code(200);

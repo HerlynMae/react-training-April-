@@ -1,9 +1,7 @@
 <?php
 
-//para sa declaration
 class Parents
 {
-  //galing sa database
     public $parents_aid;
     public $parents_is_active;
     public $parents_name;
@@ -12,14 +10,12 @@ class Parents
     public $parents_created;
     public $parents_datetime;
 
-    //ginagamit sa 
     public $connection;
     public $lastInsertedId;
     public $parents_start;
     public $parents_total;
     public $parents_search;
 
-    //para makapag join ng mga table galing sa database
     public $tblParents;
 
     public function __construct($db)
@@ -29,9 +25,6 @@ class Parents
         
     }
 
-    //para sa reading, para mabasa yung data
-    //* means all
-    //desc means nasa taas ang mga active
     public function readAll()
       {
         try {
@@ -63,14 +56,10 @@ class Parents
   //     }
   //     return $query;
   // }
-
-
       public function readById()
       {
           try {
               $sql = "select * from {$this->tblParents} ";
-              //para sa controller
-              //: para sa data, para makuha ang data
               $sql .= "where parents_aid = :parents_aid ";
               $query = $this->connection->prepare($sql);
               $query->execute([
@@ -113,6 +102,22 @@ class Parents
     }
     return $query;
   }
+
+  public function checkName()
+  {
+    try {
+      $sql = "select parents_name from {$this->tblParents} ";
+      $sql .= "where parents_name = :parents_name ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "parents_name" => "{$this->parents_name}",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
 
   public function update()
   {

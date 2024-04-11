@@ -1,23 +1,23 @@
-export const parents = [
+export const magulang = [
   {
     aid: 1,
-    name: "Parent 1",
-    address: "Manila",
-    email: "parent1@gmail.com",
-    isActive: 0,
+    name: "magulang",
+    address: "kamote Street",
+    email: "1@gmail.com",
+    isActive: 1,
   },
   {
     aid: 2,
-    name: "Parent 2",
-    address: "Caloocan",
-    email: "parent2@gmail.com",
+    name: "magulang2",
+    address: "kamote2 Street",
+    email: "2@gmail.com",
     isActive: 1,
   },
   {
     aid: 3,
-    name: "Parent 1",
-    address: "Laguna",
-    email: "parent1@gmail.com",
-    isActive: 2,
+    name: "magulan3",
+    address: "kamote3 Street",
+    email: "3@gmail.com",
+    isActive: 1,
   },
 ];

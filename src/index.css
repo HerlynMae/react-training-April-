@@ -6,22 +6,23 @@
   table {
     @apply w-full border-collapse;
   }
-  table tr {
-    @apply border-b border-gray-300;
-  }
   table th {
     @apply p-2 text-left;
+  }
+  table tr {
+    @apply border-b border-gray-300;
   }
   table tr td {
     @apply p-2;
   }
 }
+
 @layer components {
   .tooltip {
     @apply relative;
   }
   .tooltip::after {
-    @apply content-[attr(data-tooltip)] p-1 absolute bottom-full left-0 bg-black/40 text-white hidden text-xs;
+    @apply content-[attr(data-tooltip)] absolute bottom-full left-0 bg-black/40 text-white text-xs hidden p-1;
   }
   .tooltip:hover::after {
     @apply block;
